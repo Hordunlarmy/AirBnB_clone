@@ -31,7 +31,7 @@ class BaseModel:
     def __str__(self):
         """Format string based on [<class name>] (<self.id>) <self.__dict__>"""
 
-        return f"{self.__class__.__name__} ({self.id}) {self.__dict__}"
+        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
         """
