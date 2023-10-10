@@ -6,17 +6,30 @@ from datetime import datetime
 class BaseModel:
     """ The Birth Of BaseModel """
 
-    def __init__(self, *args, **kwarg):
+    def __init__(self, *args, **kwargs):
         """ Inintialization Of Instances """
 
-        self.id = str(id())
-        self.created_at = datetime.now()
-        self.updated_at = datetime.now()
+        if kwargs is not None and len(kwargs) != 0:
+            for key in kwargs:
+                time = datetime.now().isoformat()
+                if key == "created_at":
+                    self.__dict__["created_at"] = datetime.fromisoformat(
+                        time)
+                elif key == "updated_at":
+                    self.__dict__["updated_at"] = datetime.fromisoformat(
+                        time)
+                else:
+                    self.__dict__[key] = kwargs[key]
+
+        else:
+            self.id = str(id())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
 
     def __str__(self):
         """Format string based on [<class name>] (<self.id>) <self.__dict__>"""
 
-        return f"{type(self).__name__} ({self.id}) {self.__dict__}"
+        return f"{self.__class__.__name__} ({self.id}) {self.__dict__}"
 
     def save(self):
         """
@@ -33,7 +46,7 @@ class BaseModel:
         """
 
         to_dict = self.__dict__.copy()
-        to_dict[__class__] = type(self).__name__
+        to_dict["__class__"] = self.__class__.__name__
         to_dict["created_at"] = datetime.now().isoformat()
         to_dict["updated_at"] = datetime.now().isoformat()
 
