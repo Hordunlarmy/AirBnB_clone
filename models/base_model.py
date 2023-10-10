@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from uuid import uuid4 as id
 from datetime import datetime
+from models import storage
 
 
 class BaseModel:
@@ -25,6 +26,7 @@ class BaseModel:
             self.id = str(id())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            storage.new(self)
 
     def __str__(self):
         """Format string based on [<class name>] (<self.id>) <self.__dict__>"""
@@ -38,6 +40,7 @@ class BaseModel:
         """
 
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
         """
