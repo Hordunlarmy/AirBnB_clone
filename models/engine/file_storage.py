@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import json
 import os
-# from models.base_model import BaseModel
+from models.base_model import BaseModel
 
 
 class FileStorage:
@@ -27,7 +27,7 @@ class FileStorage:
             obj_dict[key] = FileStorage.__objects[key].to_dict()
 
         with open(FileStorage.__file_path, "w", encoding="utf-8") as f:
-            json.dump(obj_dict, f)
+            json.dump(obj_dict, f, indent=2)
 
     def reload(self):
         """
@@ -39,8 +39,16 @@ class FileStorage:
         if os.path.isfile(FileStorage.__file_path):
             with open(FileStorage.__file_path) as f:
                 obj_dict = json.load(f)
-                return obj_dict
+                # return obj_dict
                 for key, value in obj_dict.items():
                     class_name = value['__class__']
-                    obj_instance = eval(class_name)(**value)
-                    FileStorage.__objects[key] = obj_instance
+                    # obj_instance = globals()[class_name]
+                    # FileStorage.__objects[key] = obj_instance
+                    if class_name == 'BaseModel':
+                        # Convert the dictionary back to BaseModel instance
+                        obj_instance = BaseModel(**value)
+                        FileStorage.__objects[key] = obj_instance
+                    # Handle other classes if needed
+                    # elif class_name == 'OtherClassName':
+                    #     obj_instance = OtherClassName(**value)
+                    #     FileStorage.__objects[key] = obj_instance
