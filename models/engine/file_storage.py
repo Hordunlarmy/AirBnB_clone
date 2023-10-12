@@ -3,6 +3,11 @@ import json
 import os
 from models.base_model import BaseModel
 from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class FileStorage:
@@ -50,6 +55,16 @@ class FileStorage:
                         obj_instance = BaseModel(**value)
                     if class_name == 'User':
                         obj_instance = User(**value)
+                    if class_name == 'State':
+                        obj_instance = State(**value)
+                    if class_name == 'City':
+                        obj_instance = City(**value)
+                    if class_name == 'Amenity':
+                        obj_instance = Amenity(**value)
+                    if class_name == 'Place':
+                        obj_instance = Place(**value)
+                    if class_name == 'Review':
+                        obj_instance = Review(**value)
 
                     FileStorage.__objects[key] = obj_instance
                     # Handle other classes if needed
