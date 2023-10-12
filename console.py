@@ -157,6 +157,49 @@ class HBNBCommand(cmd.Cmd):
                 '"', '').replace("'", '')
         instance.save()
 
+    def do_count(self, arg):
+        """Count the number of instances of a specified class.
+
+        Usage: count <class_name>
+        Example: count User
+        """
+        class_name = arg.strip()
+        if class_name in HBNBCommand.class_names:
+            count = 0
+            for instance in models.storage.all().values():
+                if instance.__class__.__name__ == class_name:
+                    count += 1
+            print(count)
+        else:
+            print("** Class doesn't exist **")
+
+    def precmd(self, line):
+        """Handle custom commands like User.show("id"), User.all(), etc"""
+        parts = line.split('.')
+        if len(parts) == 2:
+            if parts[1] == 'all()' or parts[1] == 'count()':
+                parts[0] = parts[0].strip()
+                parts[1] = parts[1].translate(
+                    str.maketrans('', '', '()')).strip()
+                method_name = f"do_{parts[1]}"
+                getattr(self, method_name)(f"{parts[0]}")
+
+            if len(parts) == 2 and '(' in parts[1] and parts[1].endswith(')'):
+                command, args = parts[1].split('(', 1)
+                parts[0] = parts[0].strip()
+                args = args.strip(')')
+                args = args.strip('"')
+
+                if command in {'create', 'show', 'update', 'destroy', }:
+                    method_name = f"do_{command}"
+                    getattr(self, method_name)(f"{parts[0]} {args}")
+                else:
+                    return ""
+            return ""
+
+        else:
+            return line
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
