@@ -2,6 +2,7 @@
 import json
 import os
 from models.base_model import BaseModel
+from models.user import User
 
 
 class FileStorage:
@@ -27,7 +28,7 @@ class FileStorage:
             obj_dict[key] = FileStorage.__objects[key].to_dict()
 
         with open(FileStorage.__file_path, "w", encoding="utf-8") as f:
-            json.dump(obj_dict, f)
+            json.dump(obj_dict, f, indent=2)
 
     def reload(self):
         """
@@ -47,7 +48,10 @@ class FileStorage:
                     if class_name == 'BaseModel':
                         # Convert the dictionary back to BaseModel instance
                         obj_instance = BaseModel(**value)
-                        FileStorage.__objects[key] = obj_instance
+                    if class_name == 'User':
+                        obj_instance = User(**value)
+
+                    FileStorage.__objects[key] = obj_instance
                     # Handle other classes if needed
                     # elif class_name == 'OtherClassName':
                     #     obj_instance = OtherClassName(**value)
