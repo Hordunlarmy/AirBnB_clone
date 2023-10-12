@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 import cmd
 import models
-from models.base_model import BaseModel
+from models.base_model import BaseModel  # noqa
+from models.user import User  # noqa
+from models.state import State  # noqa
+from models.city import City  # noqa
+from models.amenity import Amenity  # noqa
+from models.place import Place  # noqa
+from models.review import Review  # noqa
 
 
 class HBNBCommand(cmd.Cmd):
@@ -43,7 +49,8 @@ class HBNBCommand(cmd.Cmd):
         elif arg not in HBNBCommand.class_names:
             print("** class doesn't exist **")
         else:
-            new_obj = BaseModel()
+            class_func = eval(arg)
+            new_obj = class_func()
             new_obj.save()
             print(new_obj.id)
 
