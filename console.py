@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import cmd
 import models
+import ast
 from models.base_model import BaseModel  # noqa
 from models.user import User  # noqa
 from models.state import State  # noqa
@@ -185,14 +186,30 @@ class HBNBCommand(cmd.Cmd):
                 getattr(self, method_name)(f"{parts[0]}")
 
             if len(parts) == 2 and '(' in parts[1] and parts[1].endswith(')'):
+                class_name = parts[0].strip()
                 command, args = parts[1].split('(', 1)
-                parts[0] = parts[0].strip()
-                args = args.strip(')')
-                args = args.strip('"')
 
-                if command in {'create', 'show', 'update', 'destroy', }:
+                if command == 'update':
                     method_name = f"do_{command}"
-                    getattr(self, method_name)(f"{parts[0]} {args}")
+                    id, attr = args.split(',', 1)
+                    id = id.strip('"')
+                    attr = attr.strip(')').strip()
+                    attr = attr.replace('"', "'")
+                    attr = ast.literal_eval(attr)
+                    if isinstance(attr, dict):
+                        for key, value in attr.items():
+                            getattr(self, method_name)(
+                                f"{class_name} {id} {key} {value}")
+                    else:
+                        attr = list(attr)
+                        getattr(self, method_name)(
+                            f"{class_name} {id} {attr[0]} {attr[1]}")
+
+                elif command in {'show', 'destroy', }:
+                    args = args.strip(')')
+                    args = args.strip('"')
+                    method_name = f"do_{command}"
+                    getattr(self, method_name)(f"{class_name} {args}")
                 else:
                     return ""
             return ""
