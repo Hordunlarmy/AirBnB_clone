@@ -214,11 +214,11 @@ class HBNBCommand(cmd.Cmd):
                     if isinstance(attr, dict):
                         for key, value in attr.items():
                             getattr(self, method_name)(
-                                f"{class_name} {id} {key} {value}")
+                                f"{class_name} {id} {key} {repr(value)}")
                     else:
                         if isinstance(attr, tuple):
                             attr = list(attr)
-                            attr_name, attr_value = attr[0], attr[1]
+                            attr_name, attr_value = attr[0], repr(attr[1])
                         else:
                             attr_name = attr
                             attr_value = ""
