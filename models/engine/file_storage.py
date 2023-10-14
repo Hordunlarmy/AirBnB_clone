@@ -27,11 +27,13 @@ class FileStorage:
 
     def new(self, obj):
         """sets in __objects the obj with key <obj class name>.id"""
+
         key = f"{obj.__class__.__name__}.{obj.id}"
         FileStorage.__objects[key] = obj
 
     def save(self):
         """ serializes __objects to the JSON file (path: __file_path)"""
+
         obj_dict = {}
         for key in FileStorage.__objects:
             obj_dict[key] = FileStorage.__objects[key].to_dict()
@@ -65,7 +67,5 @@ class FileStorage:
                         obj_instance = Place(**value)
                     if class_name == 'Review':
                         obj_instance = Review(**value)
-
-                    del value['__class__']
 
                     FileStorage.__objects[key] = obj_instance
