@@ -126,19 +126,23 @@ class HBNBCommand(cmd.Cmd):
         """
 
         args = arg.split()
-        class_name, id, attr_name = args[0], args[1], args[2]
-        attr_value = args[3]
 
         if arg is None or arg == "":
             print("** class name missing **")
             return
 
+        class_name = args[0]
+
         if class_name not in HBNBCommand.class_names:
             print("** class doesn't exist **")
             return
+
         if len(args) < 2:
             print("** instance id missing **")
             return
+
+        id = args[1]
+
         key = "{}.{}".format(class_name, id)
         if key not in models.storage.all():
             print("** no instance found **")
@@ -146,16 +150,24 @@ class HBNBCommand(cmd.Cmd):
         if len(args) < 3:
             print("** attribute name missing **")
             return
+
+        attr_name = args[2]
+
         if len(args) < 4:
             print("** value missing **")
             return
 
+        attr_value = eval(args[3])
+
         instance = models.storage.all()[key]
         # attr_value = type(attr_name)(attr_value)
-        print(f"{attr_name} is of type {type(attr_value)}")
+        # print(f"{attr_name} is of type {type(attr_value)}")
         if isinstance(attr_value, str):
             instance.__dict__[attr_name] = attr_value.replace(
                 '"', '').replace("'", '')
+        else:
+            instance.__dict__[attr_name] = attr_value
+
         instance.save()
 
     def do_count(self, arg):
@@ -191,6 +203,9 @@ class HBNBCommand(cmd.Cmd):
 
                 if command == 'update':
                     method_name = f"do_{command}"
+                    if ',' not in args:
+                        print("** attribute name missing **")
+                        return ""
                     id, attr = args.split(',', 1)
                     id = id.strip('"')
                     attr = attr.strip(')').strip()
@@ -201,9 +216,14 @@ class HBNBCommand(cmd.Cmd):
                             getattr(self, method_name)(
                                 f"{class_name} {id} {key} {value}")
                     else:
-                        attr = list(attr)
+                        if isinstance(attr, tuple):
+                            attr = list(attr)
+                            attr_name, attr_value = attr[0], attr[1]
+                        else:
+                            attr_name = attr
+                            attr_value = ""
                         getattr(self, method_name)(
-                            f"{class_name} {id} {attr[0]} {attr[1]}")
+                            f"{class_name} {id} {attr_name} {attr_value}")
 
                 elif command in {'show', 'destroy', }:
                     args = args.strip(')')
