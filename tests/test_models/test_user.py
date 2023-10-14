@@ -6,11 +6,19 @@ import json
 from datetime import datetime
 from models.user import User
 from models.engine.file_storage import FileStorage
-# from models.base_model import BaseModel
+from models.base_model import BaseModel
 
 
 class TestUser(unittest.TestCase):
     """Testcase class definition(inherits from unittest.TestCase)"""
+
+    def test_is_subclass(self):
+        """Test that State is a subclass of BaseModel"""
+        user = User()
+        self.assertIsInstance(user, BaseModel)
+        self.assertTrue(hasattr(user, "id"))
+        self.assertTrue(hasattr(user, "created_at"))
+        self.assertTrue(hasattr(user, "updated_at"))
 
     def setUp(self):
         """Set up for the tests"""
