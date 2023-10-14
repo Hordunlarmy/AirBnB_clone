@@ -39,6 +39,12 @@ class TestUser(unittest.TestCase):
         """Test User class initialization"""
 
         my_user = User()
+
+        self.assertEqual(my_user.first_name, "")
+        self.assertEqual(my_user.last_name, "")
+        self.assertEqual(my_user.email, "")
+        self.assertEqual(my_user.password, "")
+
         my_user.first_name = "Betty"
         my_user.last_name = "Bar"
         my_user.email = "airbnb@mail.com"
