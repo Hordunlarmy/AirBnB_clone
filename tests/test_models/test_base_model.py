@@ -90,6 +90,14 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(my_new_model.id, my_model_json["id"])
         self.assertFalse(my_model is my_new_model)
 
+    def test_instance_diff(self):
+        """Test inequality of two BaseModel Instance"""
+
+        my_model = BaseModel()
+        my_model1 = BaseModel()
+
+        self.assertNotEqual(my_model, my_model1)
+
 
 if __name__ == "__main__":
     unittest.main()
