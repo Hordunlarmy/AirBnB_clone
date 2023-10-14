@@ -35,16 +35,19 @@ class TestUser(unittest.TestCase):
         except Exception as e:
             print(f"Error occurred while deleting file: {e}")
 
-    def test_init(self):
-        """Test User class initialization"""
+    def test_init_without_add_attribute(self):
+        """Test initialization without adding new attribute"""
 
         my_user = User()
-
         self.assertEqual(my_user.first_name, "")
         self.assertEqual(my_user.last_name, "")
         self.assertEqual(my_user.email, "")
         self.assertEqual(my_user.password, "")
 
+    def test_init(self):
+        """Test User class initialization with new attribute"""
+
+        my_user = User()
         my_user.first_name = "Betty"
         my_user.last_name = "Bar"
         my_user.email = "airbnb@mail.com"
