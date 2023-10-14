@@ -1,4 +1,5 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python#
+"""Entry point of the command interpreter"""
 import cmd
 import models
 import ast
