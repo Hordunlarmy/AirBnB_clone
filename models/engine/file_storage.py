@@ -4,7 +4,7 @@
  JSON file to instances:
 """
 import json
-import os
+# import os
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -48,7 +48,8 @@ class FileStorage:
         exist, no exception should be raised)
         """
 
-        if os.path.isfile(FileStorage.__file_path):
+        # if os.path.isfile(FileStorage.__file_path):
+        try:
             with open(FileStorage.__file_path) as f:
                 obj_dict = json.load(f)
                 for key, value in obj_dict.items():
@@ -69,3 +70,5 @@ class FileStorage:
                         obj_instance = Review(**value)
 
                     FileStorage.__objects[key] = obj_instance
+        except FileNotFoundError:
+            return
