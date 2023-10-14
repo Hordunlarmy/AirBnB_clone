@@ -12,6 +12,14 @@ from models.base_model import BaseModel
 class Teststate(unittest.TestCase):
     """Testcase class definition(inherits from unittest.TestCase)"""
 
+    def test_is_subclass(self):
+        """Test that State is a subclass of BaseModel"""
+        state = State()
+        self.assertIsInstance(state, BaseModel)
+        self.assertTrue(hasattr(state, "id"))
+        self.assertTrue(hasattr(state, "created_at"))
+        self.assertTrue(hasattr(state, "updated_at"))
+
     def setUp(self):
         """Set up for the tests"""
         self.file_path = "test_file.json"
@@ -35,7 +43,7 @@ class Teststate(unittest.TestCase):
         my_state = State()
         my_state.name = "Abeokuta"
 
-        self.assertIsInstance(my_state, BaseModel)
+        self.assertIsInstance(my_state, State)
         self.assertIsInstance(my_state.name, str)
         self.assertIsInstance(my_state.id, str)
         self.assertEqual(len(my_state.id), 36)
