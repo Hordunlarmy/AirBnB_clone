@@ -27,8 +27,6 @@ class Teststate(unittest.TestCase):
         self.storage = FileStorage()
         self.storage.reload()
 
-        self.state = State()
-
     def tearDown(self):
         """Clear file after each test"""
         try:
@@ -41,6 +39,7 @@ class Teststate(unittest.TestCase):
         """Test state class initialization"""
 
         my_state = State()
+        self.assertEqual(my_state.name, "")
         my_state.name = "Abeokuta"
 
         self.assertIsInstance(my_state, State)
