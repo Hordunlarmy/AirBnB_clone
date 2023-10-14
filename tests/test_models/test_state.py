@@ -19,6 +19,8 @@ class Teststate(unittest.TestCase):
         self.storage = FileStorage()
         self.storage.reload()
 
+        self.state = State()
+
     def tearDown(self):
         """Clear file after each test"""
         try:
