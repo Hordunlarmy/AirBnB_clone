@@ -49,13 +49,9 @@ class FileStorage:
         if os.path.isfile(FileStorage.__file_path):
             with open(FileStorage.__file_path) as f:
                 obj_dict = json.load(f)
-                # return obj_dict
                 for key, value in obj_dict.items():
                     class_name = value['__class__']
-                    # obj_instance = globals()[class_name]
-                    # FileStorage.__objects[key] = obj_instance
                     if class_name == 'BaseModel':
-                        # Convert the dictionary back to BaseModel instance
                         obj_instance = BaseModel(**value)
                     if class_name == 'User':
                         obj_instance = User(**value)
@@ -70,8 +66,6 @@ class FileStorage:
                     if class_name == 'Review':
                         obj_instance = Review(**value)
 
+                    del value['__class__']
+
                     FileStorage.__objects[key] = obj_instance
-                    # Handle other classes if needed
-                    # elif class_name == 'OtherClassName':
-                    #     obj_instance = OtherClassName(**value)
-                    #     FileStorage.__objects[key] = obj_instance
