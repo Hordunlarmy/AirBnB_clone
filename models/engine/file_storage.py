@@ -5,13 +5,13 @@
 """
 import json
 # import os
-from models.base_model import BaseModel
-from models.user import User
-from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.place import Place
-from models.review import Review
+from models.base_model import BaseModel  # noqa
+from models.user import User  # noqa
+from models.state import State  # noqa
+from models.city import City  # noqa
+from models.amenity import Amenity  # noqa
+from models.place import Place  # noqa
+from models.review import Review  # noqa
 
 
 class FileStorage:
