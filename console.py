@@ -1,4 +1,4 @@
-#!/usr/bin/env python#
+#!/usr/bin/env python3
 """Entry point of the command interpreter"""
 import cmd
 import models
@@ -239,5 +239,5 @@ class HBNBCommand(cmd.Cmd):
             return line
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     HBNBCommand().cmdloop()
