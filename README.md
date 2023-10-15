@@ -6,6 +6,19 @@ AirBnB Clone is a project that aims to replicate the basic functionality of the 
 ## DESCRIPTION OF THE COMMAND INTERPRETER
 The Command Interpreter is a command-line tool that allows users to interact with the AirBnB Clone application. You can use the command interpreter to create, read, update, and delete property listings, users, and bookings. It provides a set of commands to perform various operations, such as listing properties, searching for properties, creating users, making
 
+## FEATURES OF THE CONSOLE
+* Creating New Objects
+* Retrieving Objects from Files
+* Performing Operations on Objects
+* Destroying Objects
+
+## SOME OF THE COMMANDS AVAILABLE
+* show
+* create
+* update
+* destroy
+* count
+
 ## RESOURCES
 * [cmd module](https://docs.python.org/3.8/library/cmd.html)
 * [cmd module in depth](http://pymotw.com/2/cmd/)
