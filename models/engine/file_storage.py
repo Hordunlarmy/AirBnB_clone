@@ -41,7 +41,7 @@ class FileStorage:
             obj_dict[key] = FileStorage.__objects[key].to_dict()
 
         with open(FileStorage.__file_path, "w", encoding="utf-8") as f:
-            json.dump(obj_dict, f, indent=2)
+            json.dump(obj_dict, f)
 
     def reload(self):
         """
