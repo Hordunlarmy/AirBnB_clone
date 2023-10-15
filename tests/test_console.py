@@ -3,6 +3,6 @@
 import unittest
 
 
-class TestConsole(unittest.Testcase):
+class TestConsole(unittest.TestCase):
     """Console Test class definition"""
     pass
