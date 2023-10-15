@@ -18,18 +18,29 @@ class TestFileStorage(unittest.TestCase):
 
     def setUp(self):
         """Set up for the tests"""
+
         self.file_path = "test_file.json"
+        if os.path.exists(self.file_path):
+            os.remove(self.file_path)
         FileStorage._FileStorage__file_path = self.file_path
         self.storage = FileStorage()
         self.storage.reload()
 
     def tearDown(self):
         """Clear file after each test"""
+
         try:
             if os.path.exists(self.file_path):
                 os.remove(self.file_path)
         except Exception as e:
             print(f"Error occurred while deleting file: {e}")
+
+    def test_filestorage_instance(self):
+        """Test instances and types for Filestorage"""
+
+        self.assertEqual(FileStorage, type(FileStorage()))
+        self.assertEqual(type(FileStorage._FileStorage__file_path), str)
+        self.assertEqual(type(FileStorage._FileStorage__objects), dict)
 
     def test_all_returns_dictionary(self):
         """Test to check if all() returns a dictionary"""
@@ -37,6 +48,7 @@ class TestFileStorage(unittest.TestCase):
 
     def test_new(self):
         """Test to check new() method behaviour"""
+
         obj = BaseModel()
         self.storage.new(obj)
         key = f"{obj.__class__.__name__}.{obj.id}"
@@ -44,6 +56,7 @@ class TestFileStorage(unittest.TestCase):
 
     def test_save(self):
         """Test to check save() method behaviour"""
+
         obj = BaseModel()
         self.storage.new(obj)
         self.storage.save()
@@ -55,6 +68,7 @@ class TestFileStorage(unittest.TestCase):
 
     def test_reload(self):
         """Test to check reload() method behaviour"""
+
         obj = BaseModel()
         self.storage.new(obj)
         self.storage.save()
@@ -65,6 +79,7 @@ class TestFileStorage(unittest.TestCase):
 
     def test_all_empty_storage(self):
         """Test all command on empty file"""
+
         all_objs = self.storage.all()
         for obj_id in all_objs.keys():
             obj = all_objs[obj_id]
@@ -73,11 +88,13 @@ class TestFileStorage(unittest.TestCase):
 
     def test_reload_with_arg(self):
         """Test to check reload() method behaviour with an argument"""
+
         with self.assertRaises(TypeError):
             self.storage.reload(None)
 
     def test_reload_without_arg(self):
         """Test to check reload() method behaviour without arguments"""
+
         obj = BaseModel()
         self.storage.new(obj)
         self.storage.save()
@@ -88,6 +105,7 @@ class TestFileStorage(unittest.TestCase):
 
     def test_reload_from_file(self):
         """Test reloading from JSON file"""
+
         objs = self.storage.all()
         for obj in objs.values():
             self.assertIsNotNone(obj)
@@ -97,6 +115,7 @@ class TestFileStorage(unittest.TestCase):
 
     def test_instance_deletion(self):
         """Test for behaviour after destroying an instance"""
+
         obj = BaseModel()
         self.storage.new(obj)
         self.storage.save()
@@ -108,6 +127,7 @@ class TestFileStorage(unittest.TestCase):
 
     def test_new_multiple_objects(self):
         """Test creating and saving all objects"""
+
         obj1 = BaseModel()
         obj2 = User()
         obj3 = State()
