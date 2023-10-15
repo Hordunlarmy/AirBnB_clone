@@ -4,6 +4,7 @@
  JSON file to instances:
 """
 import json
+import sys
 # import os
 from models.base_model import BaseModel  # noqa
 from models.user import User  # noqa
@@ -55,10 +56,10 @@ class FileStorage:
             with open(FileStorage.__file_path) as f:
                 obj_dict = json.load(f)
                 for key, value in obj_dict.items():
-                    class_name = value['__class__']
-                    my_class = eval(class_name)
-                    obj_instance = my_class(**value)
+                    name = sys.modules[__name__]
+                    my_class = getattr(name, value['__class__'])
+                    self.__objects[key] = my_class(**value)
 
-                    FileStorage.__objects[key] = obj_instance
+                    # FileStorage.__objects[key] = obj_instance
         except FileNotFoundError:
             return
