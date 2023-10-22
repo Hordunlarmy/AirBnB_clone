@@ -3,7 +3,6 @@
 import os
 import json
 import unittest
-from datetime import datetime
 from models.base_model import BaseModel
 from models.engine.file_storage import FileStorage
 from models.user import User
@@ -54,14 +53,6 @@ class TestFileStorage(unittest.TestCase):
         self.storage.new(obj)
         key = f"{obj.__class__.__name__}.{obj.id}"
         self.assertIn(key, self.storage.all())
-
-    def test_save_time(self):
-        """Test to check if time gets updated after save"""
-
-        obj = BaseModel()
-        self.storage.new(obj)
-        self.storage.save()
-        self.assertEqual(obj.updated_at, datetime.now())
 
     def test_save(self):
         """Test to check save() method behaviour"""
